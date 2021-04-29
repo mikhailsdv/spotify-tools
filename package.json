@@ -1,0 +1,15 @@
+{
+  "name": "spotify-tools",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "prompts": "^2.4.1",
+    "spotify-web-api-node": "^5.0.2"
+  }
+}
