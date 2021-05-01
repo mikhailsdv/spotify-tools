@@ -25,11 +25,13 @@ const prompts = require("prompts")
 				type: "select",
 				name: "playlist",
 				message: "Choose a playlist to which you want to add tracks",
-				choices: playlists.map(item => ({title: `${item.name} (${item.tracks} tracks)`})),
+				choices: [
+					{title: "♥ Your favourite tracks"},
+					...playlists.map(item => ({title: `${item.name} (${item.tracks} tracks)`})),
+				],
 			},
 		])
 		if (answers.playlist === undefined) return
-		const playlistsId = playlists[answers.playlist].id
 
 		fs.readFile("./tracks.txt", "utf8", async (err, data) => {
 			if (err) {
@@ -54,7 +56,17 @@ const prompts = require("prompts")
 							console.log("Not found :(")
 						}
 						else {
-							await spotifyApi.addTracksToPlaylist(playlistsId, [`spotify:track:${foundTracks[0].id}`])
+							if (answers.playlist === 0) {
+								const containsMySavedTracks = await spotifyApi.containsMySavedTracks([foundTracks[0].id])
+ 								if (containsMySavedTracks.body[0]) {
+									console.log("Track is already in your library. Skipping.")
+									continue
+								}
+								await spotifyApi.addToMySavedTracks([foundTracks[0].id])
+							}
+							else {
+								await spotifyApi.addTracksToPlaylist(playlists[answers.playlist - 1].id, [`spotify:track:${foundTracks[0].id}`])
+							}
 							console.log("Found and added!")
 						}
 					}
