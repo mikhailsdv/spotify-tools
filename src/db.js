@@ -1,6 +1,7 @@
 const fs = require("fs")
 const path = require("path")
 const dbfile = path.resolve(__dirname, "./db.json")
+//const dbfile = path.resolve(__dirname, "./db.test.json")
 
 const db = {
 	read: () => {

@@ -1,6 +1,6 @@
 const SpotifyWebApi = require("spotify-web-api-node")
-//const config = require("./config")
-const config = require("./config.js")
+const config = require("./config")
+//const config = require("./config.test.js")
 const db = require("./db.js")
 
 const spotifyApi = new SpotifyWebApi({
