@@ -1,12 +1,13 @@
 const config = require("../../config")
-const {sleep} = require("../../utils")
+const {sleep, msToTime} = require("../../utils")
 const auth = require("../../auth")
 const fs = require("fs")
 const spotifyApi = require("../../spotifyApiModule")
 const prompts = require("prompts")
 
 ;(async () => {
-	await auth(spotifyApi)
+	const isAuthSuccess = await auth(spotifyApi)
+	if (!isAuthSuccess) return;
 	try {
 		console.log("Loading playlists. Please, wait...")
 		const user = await spotifyApi.getMe()
@@ -40,7 +41,7 @@ const prompts = require("prompts")
 			const tracks = data
 				.split(/\r\n|\n|\r/)
 				.filter(item => item.trim().length > 0)
-			console.log(`Your file contains ${tracks.length} tracks. The process will take about ${Math.round(tracks.length * 2.5)} seconds.\n`)
+			console.log(`Your file contains ${tracks.length} tracks. The process will take about ${msToTime(Math.round(tracks.length * 2500))}.\n`)
 
 			const notFound = []
 			let i = 0
