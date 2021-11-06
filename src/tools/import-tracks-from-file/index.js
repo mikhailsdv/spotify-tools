@@ -1,5 +1,5 @@
 const config = require("../../config")
-const {sleep, msToTime} = require("../../utils")
+const {sleep, msToTime, loadAllPages} = require("../../utils")
 const auth = require("../../auth")
 const fs = require("fs")
 const spotifyApi = require("../../spotifyApiModule")
@@ -11,16 +11,23 @@ const prompts = require("prompts")
 	try {
 		console.log("Loading playlists. Please, wait...")
 		const user = await spotifyApi.getMe()
-		let playlists = await spotifyApi.getUserPlaylists()
-		playlists = playlists.body.items
-			.filter(item => item.owner.id === user.body.id)
-			.map(item => {
-				return {
-					name: item.name,
-					tracks: item.tracks.total,
-					id: item.id,
-				}
+		const playlists = await loadAllPages({perPage: 20}, async ({limit, offset, result}) => {
+			const response = await spotifyApi.getUserPlaylists({
+				limit,
+				offset,
 			})
+			result.push(...response.body.items
+				.filter(item => item.owner.id === user.body.id)
+				.map(item => {
+					return {
+						name: item.name,
+						tracks: item.tracks.total,
+						id: item.id,
+					}
+				})
+			)
+			return response.body.items.length > 0
+		})
 		const answers = await prompts([
 			{
 				type: "select",
