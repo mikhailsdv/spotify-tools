@@ -49,7 +49,12 @@ const prompts = require("prompts")
 				console.log(`${i + 1}/${tracks.length} Searching "${track}"`)
 
 				try {
-					const response = await spotifyApi.searchTracks(track.replace(/\s?[-—]\s?/, " "))
+					const response = await spotifyApi.searchTracks(track
+						.replace(/\s?[-—]\s?/, " ")
+						.replace(/\sft\.\s/, " ")
+						.replace(/\sfeat\.\s/, " ")
+						.replace(/[\[\(].+?[\]\)]/g, "")
+					)
 					if (response.statusCode === 200) {
 						const foundTracks = response.body.tracks.items
 						if (foundTracks.length === 0) {
@@ -83,7 +88,8 @@ const prompts = require("prompts")
 				await sleep(2000)
 			}
 			if (notFound.length > 0) {
-				console.log(`Found ${tracks.length - notFound.length}/${tracks.length} tracks.`)
+				const foundTracksAmount = tracks.length - notFound.length
+				console.log(`Found ${foundTracksAmount}/${tracks.length} tracks (${Math.round(foundTracksAmount / tracks.length * 100)}%).`)
 				console.log("Not found tracks can be found in ./not_found_tracks.txt")
 				fs.writeFileSync("./not_found_tracks.txt", notFound.join("\n"))
 			}
