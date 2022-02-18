@@ -24,7 +24,7 @@ const prompts = require("prompts")
 			)
 			return response.body.items.length > 0
 		})
-		console.log("Crating a dump of your tracks in case something goes wrong...")
+		console.log("Creating a dump of your tracks in case something goes wrong...")
 		fs.writeFileSync("./saved_tracks.json", JSON.stringify(savedTracks))
 		let reorderedTracks = savedTracks.slice()
 		const loop = async () => {
