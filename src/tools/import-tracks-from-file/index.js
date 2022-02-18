@@ -2,7 +2,7 @@ const config = require("../../config")
 const {sleep, msToTime, loadAllPages} = require("../../utils")
 const auth = require("../../auth")
 const fs = require("fs")
-const spotifyApi = require("../../spotifyApiModule")
+const spotifyApi = require("../../spotify-api-module")
 const prompts = require("prompts")
 
 ;(async () => {

@@ -18,7 +18,7 @@ const db = {
 		let dbjson = db.read()
 		dbjson[key] = value
 		db.write(dbjson)
-	}
+	},
 }
 
 module.exports = db

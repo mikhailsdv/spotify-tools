@@ -3,7 +3,7 @@ const sleep = ms => {
 }
 
 const openURL = url => {
-	const start = (process.platform === "darwin" ? "open" : process.platform === "win32" ? "start" : "xdg-open")
+	const start = process.platform === "darwin" ? "open" : process.platform === "win32" ? "start" : "xdg-open"
 	require("child_process").exec(`${start} ${url.replace(/&/g, "^&")}`)
 }
 
@@ -19,7 +19,8 @@ const objToCookieString = obj => {
 
 const arrayShuffle = array_ => {
 	const array = array_.slice()
-	let currentIndex = array.length, randomIndex;
+	let currentIndex = array.length,
+		randomIndex
 
 	while (currentIndex !== 0) {
 		randomIndex = Math.floor(Math.random() * currentIndex)
@@ -27,33 +28,20 @@ const arrayShuffle = array_ => {
 		;[array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]]
 	}
 
-	return array;
+	return array
 }
 
 const arrayChop = (array, perChunk) => {
 	return array.reduce((all, one, i) => {
 		const ch = Math.floor(i / perChunk)
-		all[ch] = [].concat((all[ch] || []), one)
+		all[ch] = [].concat(all[ch] || [], one)
 		return all
 	}, [])
 }
 
 const getDateString = () => {
 	const d = new Date()
-	const months = [
-		"January",
-		"February",
-		"March",
-		"April",
-		"May",
-		"June",
-		"July",
-		"August",
-		"September",
-		"October",
-		"November",
-		"December",
-	]
+	const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 	return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`
 }
 
@@ -84,6 +72,14 @@ const msToTime = (ms = 0) => {
 	return result.trim()
 }
 
+const arrayMove = (arr, fromIndex, toIndex) => {
+	const arr_ = arr.slice()
+	const element = arr_[fromIndex]
+	arr_.splice(fromIndex, 1)
+	arr_.splice(toIndex, 0, element)
+	return arr_
+}
+
 /*const pluralize = (n, singular, plural, accusative) => {
 	n = Math.abs(n)
 	let n10 = n % 10;
@@ -110,4 +106,5 @@ module.exports = {
 	getDateString,
 	loadAllPages,
 	msToTime,
+	arrayMove,
 }

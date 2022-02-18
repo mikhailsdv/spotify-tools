@@ -10,7 +10,7 @@ const {
 	getDateString,
 	loadAllPages,
 } = require("../../utils")
-const spotifyApi = require("../../spotifyApiModule")
+const spotifyApi = require("../../spotify-api-module")
 const request = require("../../request")
 const puppeteer = require("puppeteer-extra")
 const StealthPlugin = require("puppeteer-extra-plugin-stealth")
@@ -39,6 +39,7 @@ const auth = () => new Promise(resolve => {
 					}
 				}
 				catch(err) {
+					console.log(err)
 					return false
 				}
 			}

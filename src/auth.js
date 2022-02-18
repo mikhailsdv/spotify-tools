@@ -1,5 +1,4 @@
-const {openURL} = require("./utils")
-const db = require("./db")
+const db = require("./db.js")
 const prompts = require("prompts")
 const puppeteer = require("puppeteer-extra")
 const StealthPlugin = require("puppeteer-extra-plugin-stealth")

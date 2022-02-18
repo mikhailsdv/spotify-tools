@@ -17,8 +17,7 @@ const refreshAccessToken = async () => {
 		db.set("accessToken", token)
 		console.log("Access token has been successfully refreshed!")
 		return token
-	}
-	catch(err) {
+	} catch (err) {
 		console.log(err)
 		return false
 	}
@@ -30,26 +29,22 @@ for (const key in spotifyApi) {
 		spotifyApi_[key] = async (...args) => {
 			try {
 				return await spotifyApi[key](...args)
-			}
-			catch(err) {
-				if (err.body.error.status === 401) {
+			} catch (err) {
+				if (err?.body?.error?.status === 401) {
 					const isTokenRefreshed = await refreshAccessToken()
 					if (isTokenRefreshed) {
 						return await spotifyApi[key](...args)
-					}
-					else {
+					} else {
 						console.log("Couldn't refresh token:", err)
 						return err
 					}
-				}
-				else {
+				} else {
 					console.log("Unknown error:", err)
 					return err
 				}
 			}
 		}
-	}
-	else {
+	} else {
 		spotifyApi_[key] = spotifyApi[key]
 	}
 }
