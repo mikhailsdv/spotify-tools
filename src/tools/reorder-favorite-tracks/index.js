@@ -75,7 +75,7 @@ const prompts = require("prompts")
 		})()
 
 		await (async () => {
-			console.log(`Starting to save your tracks back. The process will take about ${msToTime(Math.round(reorderedTrackIds.length * 650))}.`)
+			console.log(`Starting to save your tracks back. The process will take about ${msToTime(Math.round(reorderedTrackIds.length * 1100))}.`)
 			//const chunks = arrayChop(reorderedTrackIds, 50)
 			let counter = 0
 			for (const id of reorderedTrackIds) {
