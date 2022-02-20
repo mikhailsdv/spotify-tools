@@ -43,15 +43,19 @@ const prompts = require("prompts")
 						type: "select",
 						name: "placeIndex",
 						message: "Choose a new place for your track. Note that you can't choose the same place so it's disabled.",
-						choices: reorderedTracks
-							.map((item, index) => [
-								{title: `${index + 1}. ${item.name} — ${item.artist}`, value: null, disabled: true},
-								{title: "░░░░░░░Place here░░░░░░░", value: index, disabled: from.trackIndex === index},
-							])
-							.flat(),
+						choices: [
+							{title: "← Go back", value: "cancel"},
+							...reorderedTracks
+								.map((item, index) => [from.trackIndex === 0 ? null : {title: "░░░░░░░Place here░░░░░░░", value: index}, {title: `${index + 1}. ${item.name} — ${item.artist}`, value: null, disabled: true}, from.trackIndex === 0 ? {title: "░░░░░░░Place here░░░░░░░", value: index} : index === reorderedTracks.length - 1 ? {title: "░░░░░░░Place here░░░░░░░", value: index + 1} : null])
+								.flat()
+								.filter(item => item !== null),
+						],
+						initial: 1,
 					},
 				])
-				reorderedTracks = arrayMove(reorderedTracks, from.trackIndex, to.placeIndex)
+				if (from.trackIndex !== "cancel") {
+					reorderedTracks = arrayMove(reorderedTracks, from.trackIndex, from.trackIndex > 0 && to.placeIndex > from.trackIndex ? to.placeIndex - 1 : to.placeIndex)
+				}
 				await loop()
 			}
 		}

@@ -4,3 +4,4 @@
 
 #import-tracks-from-file
 /src/tools/import-tracks-from-file/not_found_tracks.txt
+/src/tools/reorder-favorite-tracks/saved_tracks.json
