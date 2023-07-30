@@ -60,7 +60,7 @@ const prompts = require("prompts")
 						.replace(/\s?[-—]\s?/, " ")
 						.replace(/\sft\.\s/, " ")
 						.replace(/\sfeat\.\s/, " ")
-						.replace(/[\[\(].+?[\]\)]/g, "")
+						.replace(/[\[(].+?[\])]/g, "")
 					)
 					if (response.statusCode === 200) {
 						const foundTracks = response.body.tracks.items

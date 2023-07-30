@@ -169,13 +169,13 @@ const auth = () => new Promise(resolve => {
 		const newPlaylistName = `Fixed Mix (${getDateString()})`
 		console.log(`\nCreating new playlist «${newPlaylistName}»...`)
 		const newPlaylist = await spotifyApi.createPlaylist(newPlaylistName, {
-			description: "Daily mix from all your daily mixes withont your saved tracks. Enjoy.",
+			description: "Daily mix from all your daily mixes without your saved tracks. Enjoy.",
 			public: false
 		})
 
 		console.log(`\nAdding tracks to the new playlist...`)
 		for (const chunk of arrayChop(filteredDailyTracksIds, 100)) {
-			const addTracksToPlaylist = await spotifyApi.addTracksToPlaylist(newPlaylist.body.id, chunk)
+			await spotifyApi.addTracksToPlaylist(newPlaylist.body.id, chunk)
 		}
 
 		console.log(`\nSuccess! Check your Spotify.`)
